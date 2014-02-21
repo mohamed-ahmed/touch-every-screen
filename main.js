@@ -1,7 +1,18 @@
+"use strict";
+
 // Store frame for motion functions
 var previousFrame = null;
 var paused = false;
 var pauseOnGesture = false;
+var positions = {
+  topLeft : undefined,
+  topRight: undefined,
+  bottomLeft: undefined,
+  bottomRight: undefined
+};
+
+var globalFrame;
+var plane;
 
 // Setup Leap loop with frame callback function
 var controllerOptions = {enableGestures: true};
@@ -10,6 +21,8 @@ Leap.loop(controllerOptions, function(frame) {
   if (paused) {
     return; // Skip this update
   }
+
+  globalFrame = frame;
 
   // Display Frame object data
   var frameOutput = document.getElementById("frameData");
@@ -202,4 +215,112 @@ function pauseForGestures() {
   } else {
     pauseOnGesture = false;
   }
+}
+
+function writeMessage(canvas, message) {
+  var context = canvas.getContext('2d');
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.font = '18pt Calibri';
+  context.fillStyle = 'black';
+  context.fillText(message, 10, 25);
+}
+function getMousePos(canvas, evt) {
+  var rect = canvas.getBoundingClientRect();
+  return {
+    x: evt.clientX - rect.left,
+    y: evt.clientY - rect.top
+  };
+}
+
+$(document).ready(function(){
+  var canvas = document.getElementById('myCanvas');
+  var context = canvas.getContext('2d');
+  canvas.addEventListener('mousemove', function(evt) {
+    var mousePos = getMousePos(canvas, evt);
+    var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
+    writeMessage(canvas, message);
+  }, false);
+
+  assignButtons();
+
+});
+
+function assignButtons(){
+  $("#touch-top-left").click(function(){
+    positions.topLeft = {
+      x : globalFrame.pointables[0].tipPosition[0],
+      y : globalFrame.pointables[0].tipPosition[1],
+      z : globalFrame.pointables[0].tipPosition[2]
+    }
+  console.log("positions.topLeft: ");
+  console.log(positions.topLeft);
+  });
+
+
+  $("#touch-top-right").click(function(){
+    positions.topRight = {
+      x : globalFrame.pointables[0].tipPosition[0],
+      y : globalFrame.pointables[0].tipPosition[1],
+      z : globalFrame.pointables[0].tipPosition[2]
+    }
+  console.log("positions.topRight: ");
+  console.log(positions.topRight);
+  });
+
+
+
+  $("#touch-bottom-left").click(function(){
+    positions.bottomLeft = {
+      x : globalFrame.pointables[0].tipPosition[0],
+      y : globalFrame.pointables[0].tipPosition[1],
+      z : globalFrame.pointables[0].tipPosition[2]
+    }
+  console.log("positions.bottomLeft: ");
+  console.log(positions.bottomLeft);
+  });
+
+
+  $("#touch-bottom-right").click(function(){
+    positions.bottomRight = {
+      x : globalFrame.pointables[0].tipPosition[0],
+      y : globalFrame.pointables[0].tipPosition[1],
+      z : globalFrame.pointables[0].tipPosition[2]
+    }
+  console.log("positions.bottomRight: ");
+  console.log(positions.bottomRight);
+  });
+
+  $("#create-plane").click(function(){
+    createPlane();
+    console.log("plane: ");
+    console.log(plane);
+  });
+
+}
+
+function createPlane(){
+  var vectorCoords1 = {
+    x: positions.topRight.x - positions.topLeft.x,
+    y: positions.topRight.y - positions.topLeft.y,
+    z: positions.topRight.z - positions.topLeft.z
+  };
+
+  var vectorCoords2 = {
+    x: positions.topLeft.x - positions.bottomLeft.x,
+    y: positions.topLeft.y - positions.bottomLeft.y,
+    z: positions.topLeft.z - positions.bottomLeft.z
+  };
+
+
+  var a = new THREE.Vector3(vectorCoords1.x, vectorCoords1.y, vectorCoords1.z);
+  var b = new THREE.Vector3(vectorCoords2.x, vectorCoords2.y, vectorCoords2.z);
+
+  var c = new THREE.Vector3();
+  c.cross( a, b );
+  console.log("normal vector");
+  console.log(c);
+  var distanceFromOrigin = 
+
+  plane = new THREE.plane(c, distanceFromOrigin)
+
 }

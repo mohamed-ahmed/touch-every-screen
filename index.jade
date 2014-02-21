@@ -13,17 +13,24 @@ head
   meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
   title Touch Every Screen
   script(src="http://js.leapmotion.com/0.2.0/leap.min.js")
+  script(src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js")
   script(src="main.js")
-  script(src="kinetic-v5.0.1.min.js") kinetic-v5.0.1.min.js
-  link(rel='stylesheet', href='/style.css')
+  script(src="kinetic-v5.0.1.min.js")
+  script(src="https://rawgithub.com/mrdoob/three.js/master/build/three.js")
+  link(rel='stylesheet', href='style.css')
 
 body
   h1 Touch Every Screen
+  canvas(id="myCanvas" width="1000" height="400")
+      
+
   div( id="main")
     button(id="touch-top-left") Touching top left
-    button(id="touch-top-right") Bottom top right
+    button(id="touch-top-right") Touching top right
     button(id="touch-bottom-left") Touching bottom left
     button(id="touch-bottom-right") Touching bottom right
+    p
+    button(id="create-plane") create plane
     p
     button( id="pause", onclick="togglePause()") Pause
     input(type="checkbox" id="pauseOnGesture", onclick="pauseForGestures()" value="Pause on gesture")
