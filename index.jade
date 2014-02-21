@@ -1,0 +1,40 @@
+doctype html
+
+//- /------------------------------------------------------------------------------\
+//- | Copyright (C) 2012-2013 Leap Motion, Inc. All rights reserved.               |
+//- | Leap Motion proprietary and confidential. Not for distribution.              |
+//- | Use subject to the terms of the Leap Motion SDK Agreement available at       |
+//- | https://developer.leapmotion.com/sdk_agreement, or another agreement         |
+//- | between Leap Motion and you, your company or other organization.             |
+//- \------------------------------------------------------------------------------/
+
+html
+head
+  meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+  title Touch Every Screen
+  script(src="http://js.leapmotion.com/0.2.0/leap.min.js")
+  script(src="main.js")
+  script(src="kinetic-v5.0.1.min.js") kinetic-v5.0.1.min.js
+  link(rel='stylesheet', href='/style.css')
+
+body
+  h1 Touch Every Screen
+  div( id="main")
+    button(id="touch-top-left") Touching top left
+    button(id="touch-top-right") Bottom top right
+    button(id="touch-bottom-left") Touching bottom left
+    button(id="touch-bottom-right") Touching bottom right
+    p
+    button( id="pause", onclick="togglePause()") Pause
+    input(type="checkbox" id="pauseOnGesture", onclick="pauseForGestures()" value="Pause on gesture")
+    h3 Frame data
+    div(id="frameData")
+    div(style="clear:both;")
+    h3 Hand data:
+    div(id="handData")
+    div(style="clear:both;")
+    h3 Finger and tool data:
+    div(id="pointableData")
+    div(style="clear:both;")
+    h3 Gesture data:
+    div(id="gestureData")
