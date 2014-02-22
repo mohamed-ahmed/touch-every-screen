@@ -1,3 +1,8 @@
+require(["scripts/jquery-1.11.0.min.js",
+         "scripts/Three.js",
+         "scripts/leap.min.js"], 
+         function($, THREE, Leap){
+
 "use strict";
 
 // Store frame for motion functions
@@ -319,8 +324,8 @@ function createPlane(){
   c.cross( a, b );
   console.log("normal vector");
   console.log(c);
-  var distanceFromOrigin = 
-
-  plane = new THREE.plane(c, distanceFromOrigin)
+  
 
 }
+
+});
