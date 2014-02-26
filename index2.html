@@ -22,6 +22,7 @@
 
 			var globalFrame;
 			var plane;
+			var fingerLineSegment;
 
 			// Setup Leap loop with frame callback function
 			var controllerOptions = {enableGestures: true};
@@ -91,6 +92,12 @@
 
 			      // IDs of pointables (fingers and tools) associated with this hand
 			      if (hand.pointables.length > 0) {
+			      	fingerVector = getFingerLineSegment(hand.pointables[0]);
+			      	if(plane){
+			      		if(plane.isIntersectionLine(fingerLineSegment)){
+			      			console.log("finger is touching plane");
+			      		}
+			      	}
 			        var fingerIds = [];
 			        var toolIds = [];
 			        for (var j = 0; j < hand.pointables.length; j++) {
@@ -342,6 +349,26 @@
 			  console.log("plane: ");
 			  console.log(plane);
 			  
+
+			}
+
+			function getFingerLineSegment(pointable){
+				var length = 20;
+				var start = new THREE.Vector3(
+					pointable.tipPosition[0], 
+					pointable.tipPosition[1], 
+					pointable.tipPosition[2]
+				);
+
+				var end = new THREE.Vector3(
+					pointable.tipPosition[0] + length * pointable.direction[0] , 
+					pointable.tipPosition[1] + length * pointable.direction[1], 
+					pointable.tipPosition[2] + length * pointable.direction[2]
+				);
+
+				fingerLineSegment = new THREE.Line3(start, end);
+				//console.log(fingerLineSegment);
+				return fingerLineSegment;
 
 			}
 
