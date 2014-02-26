@@ -20,6 +20,10 @@
 				bottomRight: undefined
 			};
 
+			var intersectionPoint;
+			var relativeTouchPoint;
+
+
 			var globalFrame;
 			var plane;
 			var fingerLineSegment;
@@ -95,7 +99,15 @@
 			      	fingerVector = getFingerLineSegment(hand.pointables[0]);
 			      	if(plane){
 			      		if(plane.isIntersectionLine(fingerLineSegment)){
-			      			console.log("finger is touching plane");
+			      			intersectionPoint = plane.intersectLine(fingerLineSegment);
+			      			relativeTouchPoint = {
+			      				x : (intersectionPoint.x - positions.topLeft.x) / (positions.topRight.x - positions.topLeft.x),
+			      				y : 1  - ( (intersectionPoint.y - positions.bottomLeft.y) / (positions.topLeft.y - positions.bottomLeft.y))
+			      			};
+
+			      			console.log("finger is touching plane at: ");
+			      			console.log( relativeTouchPoint  );
+			      			console.log()
 			      		}
 			      	}
 			        var fingerIds = [];
@@ -355,13 +367,13 @@
 			function getFingerLineSegment(pointable){
 				var length = 20;
 				var start = new THREE.Vector3(
-					pointable.tipPosition[0], 
-					pointable.tipPosition[1], 
-					pointable.tipPosition[2]
+					pointable.tipPosition[0] - length * pointable.direction[0], 
+					pointable.tipPosition[1] - length * pointable.direction[1],
+					pointable.tipPosition[2] - length * pointable.direction[2]
 				);
 
 				var end = new THREE.Vector3(
-					pointable.tipPosition[0] + length * pointable.direction[0] , 
+					pointable.tipPosition[0] + length * pointable.direction[0], 
 					pointable.tipPosition[1] + length * pointable.direction[1], 
 					pointable.tipPosition[2] + length * pointable.direction[2]
 				);
