@@ -27,6 +27,7 @@
 			var globalFrame;
 			var plane;
 			var fingerLineSegment;
+			var circle;
 
 			// Setup Leap loop with frame callback function
 			var controllerOptions = {enableGestures: true};
@@ -107,7 +108,9 @@
 
 			      			console.log("finger is touching plane at: ");
 			      			console.log( relativeTouchPoint  );
-			      			console.log()
+			      			
+			      			circle.attr("cx",relativeTouchPoint.x * 1000);
+			      			circle.attr("cy",relativeTouchPoint.y * 400);
 			      		}
 			      	}
 			        var fingerIds = [];
@@ -246,13 +249,13 @@
 			  }
 			}
 
-			function writeMessage(canvas, message) {
+			/*function writeMessage(canvas, message) {
 				var context = canvas.getContext('2d');
 				context.clearRect(0, 0, canvas.width, canvas.height);
 				context.font = '18pt Calibri';
 				context.fillStyle = 'black';
 				context.fillText(message, 10, 25);
-			}
+			}*/
 
 			function getMousePos(canvas, evt) {
 			  var rect = canvas.getBoundingClientRect();
@@ -263,15 +266,16 @@
 			}
 
 			$(document).ready(function(){
-			  var canvas = document.getElementById('myCanvas');
+			  /*var canvas = document.getElementById('myCanvas');
 			  var context = canvas.getContext('2d');
 			  canvas.addEventListener('mousemove', function(evt) {
 			    var mousePos = getMousePos(canvas, evt);
 			    var message = 'Mouse position: ' + mousePos.x + ',' + mousePos.y;
 			    writeMessage(canvas, message);
-			  }, false);
+			  }, false);*/
 
 			  assignButtons();
+			  circle = $("#circle");
 
 			});
 
@@ -386,7 +390,9 @@
 
 		</script>
 		<h1>Touch Every Screen</h1>
-		<canvas id="myCanvas" width="1000" height="400"></canvas
+		<svg id="myCanvas" width="1000" height="400">
+			<circle id="circle" cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
+		</svg>
 		<div id="main">
 			<button id="touch-top-left"> Touching top left </button>
 			<button id="touch-top-right"> Touching top right </button>
